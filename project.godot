@@ -14,6 +14,11 @@ config/name="yet another shallow game"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+SignalBus="*res://scripts/signal_bus.gd"
+Bgm="*res://scripts/bgm.tscn"
+
 [input]
 
 move_right={
