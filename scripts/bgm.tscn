@@ -6,4 +6,5 @@ loop = true
 
 [node name="BGM" type="AudioStreamPlayer2D"]
 stream = SubResource("AudioStreamMP3_n1lon")
+volume_db = -10.0
 autoplay = true

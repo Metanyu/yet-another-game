@@ -1,15 +1,32 @@
 extends CharacterBody2D
 
-
 const SPEED = 130.0
 const JUMP_VELOCITY = -350.0
+var is_frozen = false
+func _ready() -> void:
+	SignalBus.connect("_player_death", die)
+	pass
+func set_frozen(value: bool):
+	is_frozen = value
+	
+func die():
+	#$AnimatedSprite2D.play("death")
+	#$CollisionShape2D.disabled = true 
+	$Animation.play("death")
+	velocity.y = JUMP_VELOCITY
+	
+func jump():
+	velocity.y = JUMP_VELOCITY
+	$AnimatedSprite2D.play("roll")
+	$Sounds/Jump.playing = true
 
 func _physics_process(delta: float) -> void:
+	if is_frozen:
+		return
+	
 	# Add the gravity.
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-
-
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -26,8 +43,7 @@ func _physics_process(delta: float) -> void:
 			$AnimatedSprite2D.play("run")
 	# Handle jump.
 	if Input.is_action_just_pressed("jump") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-		$AnimatedSprite2D.play("roll")
+		jump()
 	if direction:
 		velocity.x = direction * SPEED
 	else:
